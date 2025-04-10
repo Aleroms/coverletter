@@ -1,0 +1,21 @@
+{
+  "FirstName": "Santiago\r\n",
+  "LastName": "Morales\r\n",
+  "Location": "Mission Viejo, CA\r\n",
+  "PhoneNumber": "951.376.9126\r\n",
+  "Email": "santiagomorales333@yahoo.com\r\n",
+  "Links": [
+    {
+      "Text": "Linkedin",
+      "Link": "https://www.linkedin.com/in/santiago-morales-14b466194/"
+    },
+    {
+      "Text": "Portfolio",
+      "Link": "https://santiagomorales.dev/"
+    },
+    {
+      "Text": "GitHub",
+      "Link": "https://github.com/Aleroms"
+    }
+  ]
+}
