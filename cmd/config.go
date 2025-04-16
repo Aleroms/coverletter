@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -19,6 +20,8 @@ commands. This helps streamline the user experience and ensures your data is rea
 available when generating personalized cover letters.`,
 	Run: configure,
 }
+
+const configPath = "config.json"
 
 type ExternalLink struct {
 	Text, Link string
@@ -37,6 +40,7 @@ type coverLetterConfig struct {
 func init(){
 	rootCmd.AddCommand(configCmd)
 }
+
 func configure(cmd *cobra.Command, args []string) {
 
 	fmt.Println("Please enter name, location, phone number, email, and any external links")
@@ -59,12 +63,13 @@ func configure(cmd *cobra.Command, args []string) {
 	}
 
 	bs, err := json.MarshalIndent(coverLetterConfiguration, "", "  ")
+
 	if err != nil {
 		fmt.Println("Failed to marshal configuration:", err)
 		return
 	}
 
-	if err = os.WriteFile("config.json", bs, 0644); err != nil {
+	if err = os.WriteFile(configPath, bs, 0644); err != nil {
 		fmt.Println("Failed to write config file:", err)
 		return
 	}
@@ -75,41 +80,46 @@ func configure(cmd *cobra.Command, args []string) {
 
 func userInputForLinks() []ExternalLink {
 	links := []ExternalLink{}
+	rdr := bufio.NewReader(os.Stdin)
 
+	fmt.Println("Add external links (press Enter on label to stop):")
 
-	fmt.Println("Please enter external links. text is the label. link is the link to the resource.")
-	stop := "y"
+	for {
+		fmt.Print("Link label (or press Enter to stop): ")
+		text, _ := rdr.ReadString('\n')
+		text = strings.TrimSpace(text)
+		if text == "" {
+			break
+		}
 
-	var text string
-	var link string
-
-	for stop == "y" {
-
-		text = userInput("text")
-		link = userInput("link")
+		fmt.Print("Link URL: ")
+		link, _ := rdr.ReadString('\n')
+		link = strings.TrimSpace(link)
 
 		links = append(links, ExternalLink{Text: text, Link: link})
-
-		fmt.Printf("Another link (y/n)? ")
-		stop = userInput("decision")
 	}
 
 	return links
 }
 
+
 func userInput(category string) string {
 	var input string
-
 	rdr := bufio.NewReader(os.Stdin)
+
 	for input == "" {
 		fmt.Printf("Enter %s: ", category)
 		uin, err := rdr.ReadString(byte('\n'))
 
 		if err != nil {
 			fmt.Println("An error occurred, please try again")
+			continue
 		}
 
-		input = uin
+		input = strings.TrimSpace(uin)
+		if input == "" {
+			fmt.Println("Input cannot be empty. Try again.")
+		}
 	}
 	return input
 }
