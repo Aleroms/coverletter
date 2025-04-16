@@ -18,8 +18,6 @@ var configUpdateCmd = &cobra.Command{
 func init(){
 	configCmd.AddCommand(configUpdateCmd)
 
-	
-
 	configUpdateCmd.Flags().StringP(firstName, "f", "", "Update your first name")
 	configUpdateCmd.Flags().StringP(lastName, "l", "", "Update your last name")
 	configUpdateCmd.Flags().StringP(location, "c", "", "Update your location")
@@ -27,13 +25,7 @@ func init(){
 	configUpdateCmd.Flags().StringP(email, "e", "", "Update your email address")
 }
 
-const (
-	firstName = "FirstName"
-	lastName  = "LastName"
-	location  = "Location"
-	phone     = "Phone"
-	email     = "Email"
-)
+
 
 
 

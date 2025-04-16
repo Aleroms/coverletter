@@ -21,20 +21,6 @@ available when generating personalized cover letters.`,
 	Run: configure,
 }
 
-const configPath = "config.json"
-
-type ExternalLink struct {
-	Text, Link string
-}
-
-type coverLetterConfig struct {
-	FirstName string
-	LastName string
-	Location string
-	PhoneNumber string
-	Email string
-	Links []ExternalLink 
-}
 
 
 func init(){
