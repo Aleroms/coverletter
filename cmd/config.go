@@ -16,8 +16,7 @@ var configCmd = &cobra.Command{
 	Long: `The 'config' command allows you to initialize or modify user-specific settings 
 for the program. It collects relevant information such as your name, email, and other 
 preferences, and stores them in a configuration file for consistent reuse across 
-commands. This helps streamline the user experience and ensures your data is readily 
-available when generating personalized cover letters.`,
+commands. This helps generate personalized cover letters.`,
 	Run: configure,
 }
 
@@ -38,6 +37,12 @@ func configure(cmd *cobra.Command, args []string) {
 	phoneNumber := userInput("phone number")
 	email := userInput("email")
 	links := userInputForLinks()
+
+	// make output directory if not exists
+	err := os.Mkdir(outputPath, 0755)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	coverLetterConfiguration := coverLetterConfig{
 		FirstName:   firstName,

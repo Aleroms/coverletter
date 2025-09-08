@@ -2,6 +2,7 @@ package cmd
 
 const (
 	configPath = "config.json"
+	outputPath = "output/"
 	firstName = "FirstName"
 	lastName  = "LastName"
 	location  = "Location"
